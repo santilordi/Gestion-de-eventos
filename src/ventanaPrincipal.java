@@ -51,8 +51,14 @@ public class ventanaPrincipal extends JFrame {
 
         // Inicializar botones
         btnAgregar = new JButton("Agregar Evento");
+        btnAgregar.setFont(fuenteGrande);
+        btnAgregar.setPreferredSize(new Dimension(180, 50));
         btnEditar = new JButton("Editar Evento");
+        btnEditar.setFont(fuenteGrande);
+        btnEditar.setPreferredSize(new Dimension(180, 50));
         btnGestionarAsistentes = new JButton("Gestionar Asistentes");
+        btnGestionarAsistentes.setFont(fuenteGrande);
+        btnGestionarAsistentes.setPreferredSize(new Dimension(180, 50));
 
         // Configurar estado inicial de los botones
         btnEditar.setEnabled(false);

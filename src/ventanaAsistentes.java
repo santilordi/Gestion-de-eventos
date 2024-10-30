@@ -22,11 +22,13 @@ public class ventanaAsistentes extends JFrame {
         setTitle("Gestión de Asistentes - " + evento.getNombre());
         setLayout(new BorderLayout());
         setSize(400, 500);
+        Font fuenteGrande = new Font("Arial", Font.PLAIN, 18);
         setLocationRelativeTo(null);
 
         // Panel superior con información del evento
         JPanel panelEvento = new JPanel();
         panelEvento.add(new JLabel("Evento: " + evento.getNombre()));
+        panelEvento.setFont(fuenteGrande);
 
         // Panel central con lista de asistentes
         modeloLista = new DefaultListModel<>();

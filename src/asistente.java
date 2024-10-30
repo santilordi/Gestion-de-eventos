@@ -23,4 +23,9 @@ public class asistente {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return nombre;  // Esto hará que la JList muestre solo el nombre
+    }
 }
