@@ -14,14 +14,6 @@ public class main {
             // Crear el gestor de eventos
             gestorEventos gestor = new gestorEventos();
 
-            // Crear algunos eventos de ejemplo (opcional)
-            evento evento1 = new evento("Conferencia Java", "2024-05-15", "Auditorio Principal", "Conferencia sobre Java y Sus Frameworks");
-            evento evento2 = new evento("Workshop Spring", "2024-06-01", "Sala 101", "Taller práctico de Spring Boot");
-
-            // Agregar los eventos al gestor
-            gestor.agregarEvento(evento1);
-            gestor.agregarEvento(evento2);
-
             // Iniciar la ventana principal
             new ventanaPrincipal(gestor);
         });
