@@ -24,10 +24,10 @@ public class asistente {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return nombre + " (" + email + ")";
-    }
+    // @Override
+    // public String toString() {
+    //     return nombre + " (" + email + ")";
+    // }
 
     @Override
     public String toString() {
