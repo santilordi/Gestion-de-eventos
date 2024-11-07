@@ -13,6 +13,7 @@ public class ventanaEvento extends JFrame {
     private JTextArea txtDescripcion;
     private JButton btnGuardar;
     private JButton btnCancelar;
+    private JCheckBox chkRealizado;
 
     public ventanaEvento(evento evento, gestorEventos gestor) {
         this.eventoActual = evento;
@@ -109,6 +110,14 @@ public class ventanaEvento extends JFrame {
         JScrollPane scrollDescripcion = new JScrollPane(txtDescripcion);
         formPanel.add(scrollDescripcion, gbc);
 
+        // Checkbox para estado realizado
+        chkRealizado = new JCheckBox("Evento realizado");
+        chkRealizado.setFont(fuenteGrande);
+        chkRealizado.setSelected(eventoActual != null && eventoActual.isRealizado());
+        gbc.gridx = 1;
+        gbc.gridy = 4; // Ajusta el layout según convenga
+        formPanel.add(chkRealizado, gbc);
+
         // Panel de botones
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnGuardar = new JButton("Guardar");
@@ -153,10 +162,12 @@ public class ventanaEvento extends JFrame {
         String ubicacion = txtUbicacion.getText().trim();
         String descripcion = txtDescripcion.getText().trim();
 
+        boolean realizado = chkRealizado.isSelected();
         if (eventoActual == null) {
             // Nuevo evento
             evento nuevoEvento = new evento( nombre, fecha, ubicacion, descripcion);
             gestor.agregarEvento(nuevoEvento);
+            nuevoEvento.setRealizado(realizado);
         } else {
             // Actualizar evento existente
             evento eventoActualizado = new evento(
@@ -169,6 +180,7 @@ public class ventanaEvento extends JFrame {
             for (asistente asistente : eventoActual.getAsistentes()) {
                 eventoActualizado.agregarAsistente(asistente);
             }
+            eventoActualizado.setRealizado(realizado);
             gestor.editarEvento(eventoActual, eventoActualizado);
         }
 
