@@ -26,6 +26,11 @@ public class asistente {
 
     @Override
     public String toString() {
+        return nombre + " (" + email + ")";
+    }
+
+    @Override
+    public String toString() {
         return nombre;  // Esto hará que la JList muestre solo el nombre
     }
 }
