@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -12,6 +13,7 @@ public class ventanaPrincipal extends JFrame {
     private JButton btnAgregar;
     private JButton btnEditar;
     private JButton btnGestionarAsistentes;
+    private JButton btnMarcarRealizado;
     private gestorEventos gestor;
     private List<evento> eventos;
 
@@ -51,14 +53,15 @@ public class ventanaPrincipal extends JFrame {
 
         // Inicializar botones
         btnAgregar = new JButton("Agregar Evento");
-        btnAgregar.setFont(fuenteGrande);
-        btnAgregar.setPreferredSize(new Dimension(180, 50));
         btnEditar = new JButton("Editar Evento");
-        btnEditar.setFont(fuenteGrande);
-        btnEditar.setPreferredSize(new Dimension(180, 50));
         btnGestionarAsistentes = new JButton("Gestionar Asistentes");
-        btnGestionarAsistentes.setFont(fuenteGrande);
-        btnGestionarAsistentes.setPreferredSize(new Dimension(180, 50));
+
+        // Inicializar botón de marcar como realizado
+        btnMarcarRealizado = new JButton("Marcar como Realizado");
+        btnMarcarRealizado.setFont(fuenteGrande);
+        btnMarcarRealizado.setEnabled(false);
+
+
 
         // Configurar estado inicial de los botones
         btnEditar.setEnabled(false);
@@ -68,6 +71,7 @@ public class ventanaPrincipal extends JFrame {
         btnAgregar.addActionListener(e -> mostrarVentanaAgregar());
         btnEditar.addActionListener(e -> mostrarVentanaEditar());
         btnGestionarAsistentes.addActionListener(e -> mostrarVentanaAsistentes());
+        btnMarcarRealizado.addActionListener(e -> marcarEventoComoRealizado());
 
         // Agregar listener a la selección de la lista
         listaEventos.addListSelectionListener(new ListSelectionListener() {
@@ -76,6 +80,7 @@ public class ventanaPrincipal extends JFrame {
                     boolean haySeleccion = listaEventos.getSelectedIndex() != -1;
                     btnEditar.setEnabled(haySeleccion);
                     btnGestionarAsistentes.setEnabled(haySeleccion);
+                    btnMarcarRealizado.setEnabled(haySeleccion);
                 }
             }
         });
@@ -84,6 +89,7 @@ public class ventanaPrincipal extends JFrame {
         panelBotones.add(btnAgregar);
         panelBotones.add(btnEditar);
         panelBotones.add(btnGestionarAsistentes);
+        panelBotones.add(btnMarcarRealizado);
 
         // Agregar el panel de botones al panel principal
         panelPrincipal.add(panelBotones, BorderLayout.SOUTH);
@@ -105,10 +111,14 @@ public class ventanaPrincipal extends JFrame {
             if (value instanceof evento) {
                 evento evento = (evento) value;
                 // Personalizar el texto que se muestra para cada evento
-                setText(String.format("%s - %s - %d asistentes",
+                String textoEvento = String.format("%s - %s - %d asistentes",
                         evento.getNombre(),
                         evento.getFecha(),
-                        evento.getNumeroAsistentes()));
+                        evento.getNumeroAsistentes());
+                if (evento.isRealizado()) {
+                    setFont(fuenteGrande.deriveFont(Font.ITALIC)); // Fuente en cursiva
+                }
+                setText(textoEvento);
             }
 
             return this;
@@ -156,6 +166,15 @@ public class ventanaPrincipal extends JFrame {
                     actualizarListaEventos();
                 }
             });
+        }
+    }
+
+    // Método para marcar el evento como realizado
+    private void marcarEventoComoRealizado() {
+        evento eventoSeleccionado = listaEventos.getSelectedValue();
+        if (eventoSeleccionado != null) {
+            eventoSeleccionado.setRealizado(true);
+            actualizarListaEventos(); // Refresca la lista para mostrar el cambio
         }
     }
 }

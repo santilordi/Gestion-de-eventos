@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ public class evento {
     private String fecha;
     private String descripcion;
     private List<asistente> asistentes;
+    private boolean realizado;
 
     public evento(String nombre, String ubicacion, String fecha, String descripcion) {
         this.nombre = nombre;
@@ -15,6 +17,7 @@ public class evento {
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.asistentes = new ArrayList<>();
+        this.realizado = false;
     }
 
     public String getNombre() {
@@ -62,5 +65,13 @@ public class evento {
 
     public int getNumeroAsistentes() {
         return asistentes.size();
+    }
+
+    public boolean isRealizado() {
+        return realizado;
+    }
+
+    public void setRealizado(boolean realizado) {
+        this.realizado = realizado;
     }
 }
