@@ -73,9 +73,9 @@ public class ventanaAsistentes extends JFrame {
     private void guardarAsistente() {
         String nombre = txtNombre.getText().trim();
         String email = txtEmail.getText().trim();
-        String telefono = txtTelefono.getText().trim();
+        String telefonoText = txtTelefono.getText().trim();
 
-        if (nombre.isEmpty() || email.isEmpty() || telefono.isEmpty()) {
+        if (nombre.isEmpty() || email.isEmpty() || telefonoText.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Por favor, complete todos los campos",
                     "Error",
@@ -83,7 +83,18 @@ public class ventanaAsistentes extends JFrame {
             return;
         }
 
-        asistente nuevoAsistente = new asistente(nombre, email);
+        long telefono;
+        try {
+            telefono = Long.parseLong(telefonoText); // Intentamos convertir a long
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "El teléfono debe contener solo números",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        asistente nuevoAsistente = new asistente(nombre, email, telefono);
         gestor.agregarAsistenteAEvento(evento, nuevoAsistente);
         cargarAsistentes();
         limpiarCampos();

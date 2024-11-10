@@ -2,8 +2,9 @@ public class asistente {
 
     private String nombre;
     private String email;
+    private long telefono;
 
-    public asistente(String nombre, String email) {
+    public asistente(String nombre, String email, long telefono) {
         this.nombre = nombre;
         this.email = email;
     }
@@ -24,13 +25,16 @@ public class asistente {
         this.email = email;
     }
 
-    // @Override
-    // public String toString() {
-    //     return nombre + " (" + email + ")";
-    // }
+    public long getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(long telefono) {
+        this.telefono = telefono;
+    }
 
     @Override
     public String toString() {
-        return nombre;  // Esto hará que la JList muestre solo el nombre
+        return nombre + " - " + email + " - " + telefono;
     }
 }
