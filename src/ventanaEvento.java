@@ -227,12 +227,12 @@ public class ventanaEvento extends JFrame {
             
         if (eventoActual == null) {
             // Nuevo evento
-            evento nuevoEvento = new evento(nombre, fecha, ubicacion, descripcion, equipoAudiovisual, catering, salones);
+            evento nuevoEvento = new evento(nombre, ubicacion, fecha,descripcion, equipoAudiovisual, catering, salones);
             nuevoEvento.setRealizado(realizado);
             gestor.agregarEvento(nuevoEvento);
         } else {
             // Actualizar evento existente
-            evento eventoActualizado = new evento(nombre, fecha, ubicacion, descripcion, equipoAudiovisual, catering, salones);
+            evento eventoActualizado = new evento(nombre, ubicacion, fecha, descripcion, equipoAudiovisual, catering, salones);
             eventoActualizado.setRealizado(realizado);
     
             // Mantener la lista de asistentes del evento original
@@ -262,7 +262,7 @@ public class ventanaEvento extends JFrame {
         }
 
         if (dateChooser.getDate() == null) {
-            errores = "- La fecha es obligatoria\n";
+            errores.append("- La fecha es obligatoria\n");
         }
     
         if (txtUbicacion.getText().trim().isEmpty()) {

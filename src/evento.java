@@ -19,7 +19,7 @@ public class evento {
 
     // Evento
 
-    public evento(String nombre, String ubicacion, String fecha, String descripcion, int equipoAudiovisual, int catering, int salones) {
+    public evento(String nombre, String ubicacion, LocalDate fecha, String descripcion, int equipoAudiovisual, int catering, int salones) {
         this.nombre = nombre;
         this.ubicacion = ubicacion;
         this.fecha = fecha;
