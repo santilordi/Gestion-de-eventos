@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+import java.time.LocalDate;
 
 public class ventanaPrincipal extends JFrame {
     private JList<evento> listaEventos;
@@ -113,12 +114,23 @@ public class ventanaPrincipal extends JFrame {
                 // Personalizar el texto que se muestra para cada evento
                 String textoEvento = String.format("%s - %s - %d asistentes",
                         evento.getNombre(),
-                        evento.getFecha(),
+                        evento.getFecha().toString(),
                         evento.getNumeroAsistentes());
-                if (evento.isRealizado()) {
+
+                // Estilo para eventos pasados o futuros
+                if (evento.getFecha().isBefore(LocalDate.now())) {
+                    setForeground(Color.GRAY); // Color gris para eventos pasados
                     setFont(fuenteGrande.deriveFont(Font.ITALIC)); // Fuente en cursiva
+                } else {
+                    setForeground(Color.BLACK); // Color negro para eventos futuros
                 }
-                setText(textoEvento);
+
+                // Si el evento ya está marcado como realizado, lo ponemos en cursiva
+                if (evento.isRealizado()) {
+                    setFont(fuenteGrande.deriveFont(Font.ITALIC));
+                }
+
+                setText(textoEvento);  // Set the final text for the event item
             }
 
             return this;
@@ -141,6 +153,7 @@ public class ventanaPrincipal extends JFrame {
                 actualizarListaEventos();
             }
         });
+        ventana.setVisible(true);
     }
 
     private void mostrarVentanaEditar() {

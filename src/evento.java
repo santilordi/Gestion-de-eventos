@@ -1,12 +1,13 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 
 public class evento {
 
     private String nombre;
     private String ubicacion;
-    private String fecha;
+    private LocalDate fecha;
     private String descripcion;
 
     private int equipoAudiovisual;
@@ -48,11 +49,11 @@ public class evento {
         this.ubicacion = ubicacion;
     }
 
-    public String getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
