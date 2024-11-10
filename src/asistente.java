@@ -7,6 +7,7 @@ public class asistente {
     public asistente(String nombre, String email, long telefono) {
         this.nombre = nombre;
         this.email = email;
+        this.telefono = telefono;
     }
 
     public String getNombre() {
