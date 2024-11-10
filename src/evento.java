@@ -8,14 +8,26 @@ public class evento {
     private String ubicacion;
     private String fecha;
     private String descripcion;
+
+    private int equipoAudiovisual;
+    private int catering;
+    private int salones;
+
     private List<asistente> asistentes;
     private boolean realizado;
 
-    public evento(String nombre, String ubicacion, String fecha, String descripcion) {
+    // Evento
+
+    public evento(String nombre, String ubicacion, String fecha, String descripcion, int equipoAudiovisual, int catering, int salones) {
         this.nombre = nombre;
         this.ubicacion = ubicacion;
         this.fecha = fecha;
         this.descripcion = descripcion;
+
+        this.equipoAudiovisual = equipoAudiovisual;
+        this.catering = catering;
+        this.salones = salones;
+
         this.asistentes = new ArrayList<>();
         this.realizado = false;
     }
@@ -52,6 +64,32 @@ public class evento {
         this.descripcion = descripcion;
     }
 
+    public int getEquipoAudiovisual() {
+        return equipoAudiovisual;
+    }
+
+    public void setEquipoAudiovisual(int equipoAudiovisual) {
+        this.equipoAudiovisual = equipoAudiovisual;
+    }
+
+    public int getCatering() {
+        return catering;
+    }
+
+    public void setCatering(int catering) {
+        this.catering = catering;
+    }
+
+    public int getSalones() {
+        return salones;
+    }
+
+    public void setSalones(int salones) {
+        this.salones = salones;
+    }
+
+    // Asistente
+
     public void agregarAsistente(asistente asistente) {
         if (asistentes == null) {
             asistentes = new ArrayList<>();
@@ -74,4 +112,14 @@ public class evento {
     public void setRealizado(boolean realizado) {
         this.realizado = realizado;
     }
+
+    // Recursos
+
+    public class Recursos {
+        public static final int[] equipoAudiovisualDisponibles = {0, 1, 2, 3, 4, 5};  // 5 opciones de equipos
+        public static final int[] cateringDisponibles = {0, 1, 2, 3, 4};  // 4 opciones de catering
+        public static final int[] salonesDisponibles = {0, 1, 2, 3};  // 3 opciones de salones
+    }
+    
+
 }

@@ -11,6 +11,12 @@ public class ventanaEvento extends JFrame {
     private JTextField txtFecha;
     private JTextField txtUbicacion;
     private JTextArea txtDescripcion;
+    
+    private JSpinner spnEquipoAudiovisual;
+    private JSpinner spnCatering;
+    private JSpinner spnSalones;
+
+
     private JButton btnGuardar;
     private JButton btnCancelar;
     private JCheckBox chkRealizado;
@@ -110,12 +116,55 @@ public class ventanaEvento extends JFrame {
         JScrollPane scrollDescripcion = new JScrollPane(txtDescripcion);
         formPanel.add(scrollDescripcion, gbc);
 
+        // Recursos (JSpinners)
+        spnEquipoAudiovisual = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1)); // Mínimo 1, máximo 10
+        spnCatering = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1)); // Mínimo 1, máximo 10
+        spnSalones = new JSpinner(new SpinnerNumberModel(1, 1, 5, 1)); // Mínimo 1, máximo 5
+
+        // Equipo Audiovisual
+        JLabel lblEquipoAudiovisual = new JLabel("Equipo Audiovisual:");
+        lblEquipoAudiovisual.setFont(fuenteGrande);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.weightx = 0.0;
+        formPanel.add(lblEquipoAudiovisual, gbc);
+
+        spnEquipoAudiovisual = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+        spnEquipoAudiovisual.setFont(fuenteGrande);
+        gbc.gridx = 1;
+        gbc.weightx = 1.0;
+        formPanel.add(spnEquipoAudiovisual, gbc);
+
+        // Catering
+        JLabel lblCatering = new JLabel("Catering:");
+        lblCatering.setFont(fuenteGrande);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        formPanel.add(lblCatering, gbc);
+
+        spnCatering = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+        spnCatering.setFont(fuenteGrande);
+        gbc.gridx = 1;
+        formPanel.add(spnCatering, gbc);
+
+        // Salones
+        JLabel lblSalones = new JLabel("Salones:");
+        lblSalones.setFont(fuenteGrande);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        formPanel.add(lblSalones, gbc);
+
+        spnSalones = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+        spnSalones.setFont(fuenteGrande);
+        gbc.gridx = 1;
+        formPanel.add(spnSalones, gbc);
+
         // Checkbox para estado realizado
         chkRealizado = new JCheckBox("Evento realizado");
         chkRealizado.setFont(fuenteGrande);
         chkRealizado.setSelected(eventoActual != null && eventoActual.isRealizado());
         gbc.gridx = 1;
-        gbc.gridy = 4; // Ajusta el layout según convenga
+        gbc.gridy = 7; 
         formPanel.add(chkRealizado, gbc);
 
         // Panel de botones
@@ -155,57 +204,84 @@ public class ventanaEvento extends JFrame {
         if (!validarCampos()) {
             return;
         }
-
+    
         // Crear nuevo evento o actualizar existente
         String nombre = txtNombre.getText().trim();
         String fecha = txtFecha.getText();
         String ubicacion = txtUbicacion.getText().trim();
         String descripcion = txtDescripcion.getText().trim();
-
+    
         boolean realizado = chkRealizado.isSelected();
+    
+        // Extraer valores de los JSpinners
+        int equipoAudiovisual = Math.max(1, Math.min(10, (int) spnEquipoAudiovisual.getValue()));
+        int catering = Math.max(1, Math.min(10, (int) spnCatering.getValue()));
+        int salones = Math.max(1, Math.min(5, (int) spnSalones.getValue()));
+            
         if (eventoActual == null) {
             // Nuevo evento
-            evento nuevoEvento = new evento( nombre, fecha, ubicacion, descripcion);
-            gestor.agregarEvento(nuevoEvento);
+            evento nuevoEvento = new evento(nombre, fecha, ubicacion, descripcion, equipoAudiovisual, catering, salones);
             nuevoEvento.setRealizado(realizado);
+            gestor.agregarEvento(nuevoEvento);
         } else {
             // Actualizar evento existente
-            evento eventoActualizado = new evento(
-                    nombre,
-                    fecha,
-                    ubicacion,
-                    descripcion
-            );
+            evento eventoActualizado = new evento(nombre, fecha, ubicacion, descripcion, equipoAudiovisual, catering, salones);
+            eventoActualizado.setRealizado(realizado);
+    
             // Mantener la lista de asistentes del evento original
             for (asistente asistente : eventoActual.getAsistentes()) {
                 eventoActualizado.agregarAsistente(asistente);
             }
-            eventoActualizado.setRealizado(realizado);
+    
             gestor.editarEvento(eventoActual, eventoActualizado);
         }
-
+    
+        // Cerrar ventana
         dispose();
     }
-
+    
     private boolean validarCampos() {
-        String errores = new String();
+        StringBuilder errores = new StringBuilder();
 
+        int equipoAudiovisual = (int) spnEquipoAudiovisual.getValue();
+        int catering = (int) spnCatering.getValue();
+        int salones = (int) spnSalones.getValue();
+
+
+    
+        // Validación de campos
         if (txtNombre.getText().trim().isEmpty()) {
-            errores = "- El nombre es obligatorio\n";
+            errores.append("- El nombre es obligatorio\n");
         }
-
-        if (txtFecha.getText() == null) {
-            errores = "- La fecha es obligatoria\n";
+    
+        if (txtFecha.getText().trim().isEmpty()) { // Se debe comprobar que txtFecha no esté vacío
+            errores.append("- La fecha es obligatoria\n");
         }
-
+    
         if (txtUbicacion.getText().trim().isEmpty()) {
-            errores = "- La ubicación es obligatoria\n";
+            errores.append("- La ubicación es obligatoria\n");
         }
 
+        if (equipoAudiovisual < 1 || equipoAudiovisual > 10) {
+            equipoAudiovisual = Math.max(1, Math.min(10, equipoAudiovisual)); 
+            JOptionPane.showMessageDialog(this, "El valor para Equipo Audiovisual debe estar entre 1 y 10.");
+        }
+        
+        if (catering < 1 || catering > 10) {
+            catering = Math.max(1, Math.min(10, catering));
+            JOptionPane.showMessageDialog(this, "El valor para Catering debe estar entre 1 y 10.");
+        }
+        
+        if (salones < 1 || salones > 5) {
+            salones = Math.max(1, Math.min(5, salones));
+            JOptionPane.showMessageDialog(this, "El valor para Salones debe estar entre 1 y 5.");
+        }
+    
         if (txtDescripcion.getText().trim().isEmpty()) {
-            errores = "- La descripción es obligatoria\n";
+            errores.append("- La descripción es obligatoria\n");
         }
 
+    
         if (errores.length() > 0) {
             JOptionPane.showMessageDialog(
                     this,
@@ -215,7 +291,8 @@ public class ventanaEvento extends JFrame {
             );
             return false;
         }
-
+    
         return true;
     }
+    
 }
