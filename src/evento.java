@@ -1,17 +1,18 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 
 public class evento {
 
     private String nombre;
     private String ubicacion;
-    private String fecha;
+    private LocalDate fecha;
     private String descripcion;
     private List<asistente> asistentes;
     private boolean realizado;
 
-    public evento(String nombre, String ubicacion, String fecha, String descripcion) {
+    public evento(String nombre, LocalDate fecha, String ubicacion, String descripcion) {
         this.nombre = nombre;
         this.ubicacion = ubicacion;
         this.fecha = fecha;
@@ -36,11 +37,11 @@ public class evento {
         this.ubicacion = ubicacion;
     }
 
-    public String getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

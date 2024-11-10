@@ -1,5 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
+import com.toedter.calendar.JDateChooser;
 
 
 public class ventanaEvento extends JFrame {
@@ -8,12 +14,13 @@ public class ventanaEvento extends JFrame {
 
     // Componentes del formulario
     private JTextField txtNombre;
-    private JTextField txtFecha;
+    private JFormattedTextField txtFecha;
     private JTextField txtUbicacion;
     private JTextArea txtDescripcion;
     private JButton btnGuardar;
     private JButton btnCancelar;
     private JCheckBox chkRealizado;
+    private JDateChooser dateChooser;
 
     public ventanaEvento(evento evento, gestorEventos gestor) {
         this.eventoActual = evento;
@@ -54,13 +61,12 @@ public class ventanaEvento extends JFrame {
         lblNombre.setFont(fuenteGrande);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        formPanel.add(new JLabel("Nombre:"), gbc);
+        formPanel.add(lblNombre, gbc);
 
         txtNombre = new JTextField(20);
         txtNombre.setFont(fuenteGrande);
         gbc.gridx = 1;
         gbc.weightx = 1.0;
-        txtNombre = new JTextField(20);
         formPanel.add(txtNombre, gbc);
 
         // Fecha
@@ -69,14 +75,14 @@ public class ventanaEvento extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 0.0;
-        formPanel.add(new JLabel("Fecha:"), gbc);
+        formPanel.add(lblFecha, gbc);
 
-        txtFecha = new JTextField();
-        txtFecha.setFont(fuenteGrande);
+        // Correctamente inicializando JDateChooser
+        dateChooser = new JDateChooser();
+        dateChooser.setFont(fuenteGrande); // Aquí usamos dateChooser
         gbc.gridx = 1;
         gbc.weightx = 1.0;
-        txtFecha = new JTextField();
-        formPanel.add(txtFecha, gbc);
+        formPanel.add(dateChooser, gbc);
 
         // Ubicación
         JLabel lblUbicacion = new JLabel("Ubicación:");
@@ -84,13 +90,12 @@ public class ventanaEvento extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 0.0;
-        formPanel.add(new JLabel("Ubicación:"), gbc);
+        formPanel.add(lblUbicacion, gbc);
 
         txtUbicacion = new JTextField(20);
         txtUbicacion.setFont(fuenteGrande);
         gbc.gridx = 1;
         gbc.weightx = 1.0;
-        txtUbicacion = new JTextField(20);
         formPanel.add(txtUbicacion, gbc);
 
         // Descripción
@@ -99,7 +104,7 @@ public class ventanaEvento extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.weightx = 0.0;
-        formPanel.add(new JLabel("Descripción:"), gbc);
+        formPanel.add(lblDescripcion, gbc);
 
         gbc.gridx = 1;
         gbc.weightx = 1.0;
@@ -115,7 +120,7 @@ public class ventanaEvento extends JFrame {
         chkRealizado.setFont(fuenteGrande);
         chkRealizado.setSelected(eventoActual != null && eventoActual.isRealizado());
         gbc.gridx = 1;
-        gbc.gridy = 4; // Ajusta el layout según convenga
+        gbc.gridy = 4;
         formPanel.add(chkRealizado, gbc);
 
         // Panel de botones
@@ -144,9 +149,11 @@ public class ventanaEvento extends JFrame {
     private void cargarDatosEvento() {
         if (eventoActual != null) {
             txtNombre.setText(eventoActual.getNombre());
-            txtFecha.setText(eventoActual.getFecha());
             txtUbicacion.setText(eventoActual.getUbicacion());
             txtDescripcion.setText(eventoActual.getDescripcion());
+
+            Date fecha = Date.from(eventoActual.getFecha().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            dateChooser.setDate(fecha);
         }
     }
 
@@ -158,7 +165,7 @@ public class ventanaEvento extends JFrame {
 
         // Crear nuevo evento o actualizar existente
         String nombre = txtNombre.getText().trim();
-        String fecha = txtFecha.getText();
+        LocalDate fecha = dateChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         String ubicacion = txtUbicacion.getText().trim();
         String descripcion = txtDescripcion.getText().trim();
 
@@ -194,7 +201,7 @@ public class ventanaEvento extends JFrame {
             errores = "- El nombre es obligatorio\n";
         }
 
-        if (txtFecha.getText() == null) {
+        if (dateChooser.getDate() == null) {
             errores = "- La fecha es obligatoria\n";
         }
 
