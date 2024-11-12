@@ -15,6 +15,8 @@ public class ventanaPrincipal extends JFrame {
     private JButton btnEditar;
     private JButton btnGestionarAsistentes;
     private JButton btnMarcarRealizado;
+    private JButton btnMostrarCalendario;  // Nuevo botón para abrir el calendario
+    private calendario calendarioPanel;  // Panel del calendario
     private gestorEventos gestor;
     private List<evento> eventos;
 
@@ -62,6 +64,12 @@ public class ventanaPrincipal extends JFrame {
         btnMarcarRealizado.setFont(fuenteGrande);
         btnMarcarRealizado.setEnabled(false);
 
+        //inicializar boton de calendario
+        btnMostrarCalendario = new JButton("Mostrar Calendario");  // Botón para mostrar calendario
+
+        // Acción para mostrar el calendario
+        btnMostrarCalendario.addActionListener(e -> mostrarCalendario());
+
 
 
         // Configurar estado inicial de los botones
@@ -84,6 +92,7 @@ public class ventanaPrincipal extends JFrame {
                     btnMarcarRealizado.setEnabled(haySeleccion);
                 }
             }
+
         });
 
         // Agregar botones al panel
@@ -91,6 +100,8 @@ public class ventanaPrincipal extends JFrame {
         panelBotones.add(btnEditar);
         panelBotones.add(btnGestionarAsistentes);
         panelBotones.add(btnMarcarRealizado);
+        panelBotones.add(btnMostrarCalendario);  // Agregar botón para mostrar calendario
+
 
         // Agregar el panel de botones al panel principal
         panelPrincipal.add(panelBotones, BorderLayout.SOUTH);
@@ -154,6 +165,12 @@ public class ventanaPrincipal extends JFrame {
             }
         });
         ventana.setVisible(true);
+    }
+
+    private void mostrarCalendario() {
+        // Crear la ventana de calendario y mostrarla
+        calendario ventanaCalendario = new calendario(this, gestor);
+        ventanaCalendario.setVisible(true);
     }
 
     private void mostrarVentanaEditar() {
