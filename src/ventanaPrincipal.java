@@ -159,6 +159,7 @@ public class ventanaPrincipal extends JFrame {
         int mesSeleccionado = calendarSeleccionado.get(Calendar.MONTH);
         StringBuilder eventosMes = new StringBuilder("Eventos en el mes seleccionado:\n");
         Calendar hoy = Calendar.getInstance();
+        boolean hayEventos = false;
 
         for (evento evento : eventos) {
             Calendar calendarEvento = Calendar.getInstance();
@@ -166,10 +167,11 @@ public class ventanaPrincipal extends JFrame {
 
             if (calendarEvento.get(Calendar.MONTH) == mesSeleccionado && calendarEvento.after(hoy)) {
                 eventosMes.append(String.format("Fecha: %1$tF, Evento: %2$s\n", java.sql.Date.valueOf(evento.getFecha()), evento.getDescripcion()));
+                hayEventos = true;
             }
         }
 
-        if (eventosMes.length() > 0) {
+        if (hayEventos) {
             JOptionPane.showMessageDialog(this, eventosMes.toString(), "Eventos en el Mes", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "No hay eventos en este mes.", "Sin Eventos", JOptionPane.INFORMATION_MESSAGE);
