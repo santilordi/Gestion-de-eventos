@@ -31,7 +31,7 @@ public class ventanaPrincipal extends JFrame {
 
     private void inicializarComponentes() {
         setTitle("Gestión de Eventos");
-        setSize(800, 600);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(20, 20));
         Font fuenteGrande = new Font("Arial", Font.PLAIN, 18);
