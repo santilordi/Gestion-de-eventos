@@ -113,14 +113,5 @@ public class evento {
     public void setRealizado(boolean realizado) {
         this.realizado = realizado;
     }
-
-    // Recursos
-
-    public class Recursos {
-        public static final int[] equipoAudiovisualDisponibles = {0, 1, 2, 3, 4, 5};  // 5 opciones de equipos
-        public static final int[] cateringDisponibles = {0, 1, 2, 3, 4};  // 4 opciones de catering
-        public static final int[] salonesDisponibles = {0, 1, 2, 3};  // 3 opciones de salones
-    }
     
-
 }

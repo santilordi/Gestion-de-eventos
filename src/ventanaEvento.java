@@ -134,7 +134,7 @@ public class ventanaEvento extends JFrame {
         gbc.weightx = 0.0;
         formPanel.add(lblEquipoAudiovisual, gbc);
 
-        spnEquipoAudiovisual = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+        spnEquipoAudiovisual = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
         spnEquipoAudiovisual.setFont(fuenteGrande);
         gbc.gridx = 1;
         gbc.weightx = 1.0;
@@ -147,7 +147,7 @@ public class ventanaEvento extends JFrame {
         gbc.gridy = 5;
         formPanel.add(lblCatering, gbc);
 
-        spnCatering = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+        spnCatering = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
         spnCatering.setFont(fuenteGrande);
         gbc.gridx = 1;
         formPanel.add(spnCatering, gbc);
@@ -159,7 +159,7 @@ public class ventanaEvento extends JFrame {
         gbc.gridy = 6;
         formPanel.add(lblSalones, gbc);
 
-        spnSalones = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+        spnSalones = new JSpinner(new SpinnerNumberModel(1, 1, 5, 1));
         spnSalones.setFont(fuenteGrande);
         gbc.gridx = 1;
         formPanel.add(spnSalones, gbc);
@@ -203,7 +203,11 @@ public class ventanaEvento extends JFrame {
 
             Date fecha = Date.from(eventoActual.getFecha().atStartOfDay(ZoneId.systemDefault()).toInstant());
             dateChooser.setDate(fecha);
-        }
+
+            spnEquipoAudiovisual.setValue(eventoActual.getEquipoAudiovisual());
+            spnCatering.setValue(eventoActual.getCatering());
+            spnSalones.setValue(eventoActual.getSalones());
+            }
     }
 
     private void guardarEvento() {
@@ -254,42 +258,49 @@ public class ventanaEvento extends JFrame {
         int catering = (int) spnCatering.getValue();
         int salones = (int) spnSalones.getValue();
 
-
+        int contador = 0;
     
         // Validación de campos
         if (txtNombre.getText().trim().isEmpty()) {
             errores.append("- El nombre es obligatorio\n");
+            contador ++;
         }
 
         if (dateChooser.getDate() == null) {
             errores.append("- La fecha es obligatoria\n");
+            contador ++;
         }
     
         if (txtUbicacion.getText().trim().isEmpty()) {
             errores.append("- La ubicación es obligatoria\n");
+            contador ++;
         }
 
         if (equipoAudiovisual < 1 || equipoAudiovisual > 10) {
             equipoAudiovisual = Math.max(1, Math.min(10, equipoAudiovisual)); 
             JOptionPane.showMessageDialog(this, "El valor para Equipo Audiovisual debe estar entre 1 y 10.");
+            contador ++;
         }
         
         if (catering < 1 || catering > 10) {
             catering = Math.max(1, Math.min(10, catering));
             JOptionPane.showMessageDialog(this, "El valor para Catering debe estar entre 1 y 10.");
+            contador ++;
         }
         
         if (salones < 1 || salones > 5) {
             salones = Math.max(1, Math.min(5, salones));
             JOptionPane.showMessageDialog(this, "El valor para Salones debe estar entre 1 y 5.");
+            contador ++;
         }
     
         if (txtDescripcion.getText().trim().isEmpty()) {
             errores.append("- La descripción es obligatoria\n");
+            contador ++;
         }
 
     
-        if (errores.length() > 0) {
+        if (contador > 0) {
             JOptionPane.showMessageDialog(
                     this,
                     "Por favor corrija los siguientes errores:\n" + errores.toString(),
