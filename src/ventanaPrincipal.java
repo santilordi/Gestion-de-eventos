@@ -21,6 +21,7 @@ public class ventanaPrincipal extends JFrame {
     private gestorEventos gestor;
     private List<evento> eventos;
 
+
     public ventanaPrincipal(gestorEventos gestor) {
         this.gestor = gestor;
         inicializarComponentes();
@@ -28,10 +29,16 @@ public class ventanaPrincipal extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
+    
 
     private void inicializarComponentes() {
+
+        //Toma el ancho y largo de la pantalla
+        Dimension screeDimension = Toolkit.getDefaultToolkit().getScreenSize();
+
+        //Genera la pantalla con las siguientes variables
         setTitle("Gestión de Eventos");
-        setSize(1000, 600);
+        setSize(screeDimension.width,screeDimension.height);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(20, 20));
         Font fuenteGrande = new Font("Arial", Font.PLAIN, 18);
